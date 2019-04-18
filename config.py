@@ -12,7 +12,7 @@ SERVER_ERROR_RESPONSE = b'ERROR'
 # logging
 SERVER_START_MSG = '--app started-- \n To close the app press CTRL-C'
 SERVER_END_MSG = '--app closed--'
-LOG_PATTERN = '{h} - Received: {m} - user: {u}'
+LOG_PATTERN = '{h}:{p} - Received: {m} - user: {u}'
 
 
 # CLIENT SETTINGS

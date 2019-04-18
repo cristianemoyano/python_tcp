@@ -2,7 +2,15 @@ from db import get_connection
 import orm
 
 
-def create_user_table():
+def insert_users():
+    orm.insert_user(
+        name='Cristian',
+        last_name='Moyano',
+        card_id='ASF1235',
+    )
+
+
+def reset_and_create_schemas():
     try:
         CONN = get_connection()
         cursor = CONN.cursor()
@@ -17,17 +25,8 @@ def create_user_table():
             CREATE INDEX card_id_number ON users (card_id);
         ''')
         CONN.commit()
-    except Exception:
-        pass
+    except Exception as e:
+        raise e
     finally:
         # Close the db connection
         CONN.close()
-
-
-create_user_table()
-
-orm.insert_user(
-    name='Cristian',
-    last_name='Moyano',
-    card_id='ASF1235',
-)

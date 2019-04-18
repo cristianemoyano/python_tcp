@@ -1,4 +1,12 @@
 from db import get_connection
+from sqlite3 import IntegrityError
+
+
+class CustomIntegrityError(Exception):
+    """docstring for CustomIntegrityError"""
+    def __init__(self, msg):
+        super(CustomIntegrityError, self).__init__()
+        self.msg = msg
 
 
 def get_user_by_id(user_id):
@@ -73,21 +81,27 @@ def delete_user_by_card_id(card_id):
 
 
 def insert_user(name, last_name, card_id):
-    try:
-        # Get a cursor object
-        CONN = get_connection()
-        cursor = CONN.cursor()
-        # Insert user 1
-        cursor.execute('''
-            INSERT INTO users(name, last_name, card_id) VALUES(?,?,?)''',
-                       (name, last_name, card_id)
-                       )
-        # Commit the change
-        CONN.commit()
-    except Exception as e:
-        # Roll back any change if something goes wrong
-        CONN.rollback()
-        raise e
-    finally:
-        # Close the db connection
-        CONN.close()
+        try:
+            # Get a cursor object
+            CONN = get_connection()
+            cursor = CONN.cursor()
+            # Insert user 1
+            cursor.execute('''
+                INSERT INTO users(name, last_name, card_id) VALUES(?,?,?)''',
+                           (name, last_name, card_id)
+                           )
+            # Commit the change
+            CONN.commit()
+        except IntegrityError as e:
+            # Roll back any change if something goes wrong
+            CONN.rollback()
+            raise CustomIntegrityError('Error: This card id: {id} already exists in DB. Exception: {e}'.format(
+                id=card_id, e=e)
+            )
+        except Exception as e:
+            # Roll back any change if something goes wrong
+            CONN.rollback()
+            raise e
+        finally:
+            # Close the db connection
+            CONN.close()
