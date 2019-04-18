@@ -3,26 +3,31 @@ import orm
 
 
 def create_user_table():
-    CONN = get_connection()
-    cursor = CONN.cursor()
-    cursor.execute('''
-        DROP TABLE IF EXISTS users;
-    ''')
-    cursor.execute('''
-        CREATE TABLE users(id INTEGER PRIMARY KEY, name TEXT,
-                           phone TEXT, email TEXT unique, password TEXT)
-    ''')
-    CONN.commit()
-    CONN.close()
+    try:
+        CONN = get_connection()
+        cursor = CONN.cursor()
+        cursor.execute('''
+            DROP TABLE IF EXISTS users;
+        ''')
+        cursor.execute('''
+            CREATE TABLE users(id INTEGER PRIMARY KEY, name TEXT,
+                               last_name TEXT, card_id TEXT unique)
+        ''')
+        cursor.execute('''
+            CREATE INDEX card_id_number ON users (card_id);
+        ''')
+        CONN.commit()
+    except Exception:
+        pass
+    finally:
+        # Close the db connection
+        CONN.close()
 
 
 create_user_table()
 
 orm.insert_user(
     name='Cristian',
-    phone=1234,
-    email='test@gmail.com',
-    password=1234
+    last_name='Moyano',
+    card_id='ASF1235',
 )
-
-print(orm.get_user_by_name(name='Cristian'))

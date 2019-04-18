@@ -16,14 +16,14 @@ def get_user_by_id(user_id):
     return user
 
 
-def get_user_by_name(name):
+def get_user_by_card_id(card_id):
     # Get a cursor object
     CONN = get_connection()
     cursor = CONN.cursor()
     # query
     cursor.execute(
-        '''SELECT name, email, phone FROM users WHERE name like ?''',
-        (name,)
+        '''SELECT * FROM users WHERE card_id like ?''',
+        (card_id,)
     )
     user = cursor.fetchone()
     CONN.close()
@@ -31,15 +31,15 @@ def get_user_by_name(name):
     return user
 
 
-def update_user(user_id, phone):
+def update_user(card_id, name, last_name):
     try:
         # Get a cursor object
         CONN = get_connection()
         cursor = CONN.cursor()
         # query
         cursor.execute(
-            '''UPDATE users SET phone = ? WHERE id = ? ''',
-            (phone, user_id)
+            '''UPDATE users SET name = ?, last_name = ? WHERE card_id = ? ''',
+            (name, last_name, card_id)
         )
         # Commit the change
         CONN.commit()
@@ -53,13 +53,13 @@ def update_user(user_id, phone):
         CONN.close()
 
 
-def delete_user(user_id, phone):
+def delete_user_by_card_id(card_id):
     try:
         # Get a cursor object
         CONN = get_connection()
         cursor = CONN.cursor()
         # query
-        cursor.execute('''DELETE FROM users WHERE id = ? ''', (user_id,))
+        cursor.execute('''DELETE FROM users WHERE card_id = ? ''', (card_id,))
         # Commit the change
         CONN.commit()
     # Catch the exception
@@ -72,15 +72,15 @@ def delete_user(user_id, phone):
         CONN.close()
 
 
-def insert_user(name, phone, email, password):
+def insert_user(name, last_name, card_id):
     try:
         # Get a cursor object
         CONN = get_connection()
         cursor = CONN.cursor()
         # Insert user 1
         cursor.execute('''
-            INSERT INTO users(name, phone, email, password) VALUES(?,?,?,?)''',
-                       (name, phone, email, password)
+            INSERT INTO users(name, last_name, card_id) VALUES(?,?,?)''',
+                       (name, last_name, card_id)
                        )
         # Commit the change
         CONN.commit()

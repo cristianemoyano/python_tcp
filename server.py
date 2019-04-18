@@ -1,15 +1,13 @@
 
 import socket
-
-HOST = '127.0.0.1'  # Standard loopback interface address (localhost)
-PORT = 65432        # Port to listen on (non-privileged ports are > 1023)
-
+import orm
+import config
 
 try:
-    print('--app started--')
+    print(config.SERVER_START_MSG)
     while True:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.bind((HOST, PORT))
+            s.bind((config.HOST, config.PORT))
             s.listen()
             conn, addr = s.accept()
             with conn:
@@ -17,8 +15,14 @@ try:
                     data = conn.recv(1024)
                     if not data:
                         break
-                    conn.sendall(data)
-                    print('{h} - Received: {m}'.format(h=addr, m=data))
+                    try:
+                        user = orm.get_user_by_card_id(card_id=data)
+                        if user:
+                            conn.sendall(config.SERVER_SUCCESS_RESPONSE)
+                        else:
+                            conn.sendall(config.SERVER_ERROR_RESPONSE)
+                        print(config.LOG_PATTERN.format(h=addr, m=data, u=user))
+                    except Exception:
+                        conn.sendall(config.SERVER_ERROR_RESPONSE)
 except KeyboardInterrupt:
-    print("Keyboard interrupt: exiting..")
-    print('--done--')
+    print(config.SERVER_END_MSG)

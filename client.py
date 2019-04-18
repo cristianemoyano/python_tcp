@@ -1,13 +1,17 @@
 import socket
-
-HOST = '127.0.0.1'  # The server's hostname or IP address
-PORT = 65432        # The port used by the server
+import config
 
 try:
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.connect((HOST, PORT))
-        s.sendall(b'Hello, world')
+        s.connect((config.HOST, config.PORT))
+        # Test with correct user
+        s.sendall(b'ASF1235')
         data = s.recv(1024)
-        print('Data sent', repr(data))
+        print('Received from server: ', repr(data))
+
+        # Test with wrong user
+        s.sendall(b'WRONG_ID')
+        data = s.recv(1024)
+        print('Received from server: ', repr(data))
 except socket.error as e:
-    print('Connection error. Is server running? message: {}'.format(e))
+    print(config.CLIENT_ERROR_RESPONSE_PATTERN.format(e))
