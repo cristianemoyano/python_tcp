@@ -4,6 +4,7 @@ import socket
 import migrations
 import orm
 import menu
+from datetime import datetime
 
 
 def validate_user(connection, data):
@@ -14,7 +15,8 @@ def validate_user(connection, data):
         else:
             connection.sendall(config.SERVER_ERROR_RESPONSE)
             user = 'Not Found'
-        print(config.LOG_PATTERN.format(h=config.HOST, p=config.PORT, m=data, u=user))
+        now = datetime.now().strftime(config.DATETIME_FORMAT)
+        print(config.LOG_PATTERN.format(h=config.HOST, p=config.PORT, m=data, u=user, d=now))
     except Exception as e:
         connection.sendall(config.SERVER_ERROR_RESPONSE)
         print('Error: {}'.format(e))

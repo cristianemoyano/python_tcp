@@ -1,4 +1,6 @@
 
+import locale
+
 # SERVER SETTINGS
 
 # host
@@ -12,10 +14,17 @@ SERVER_ERROR_RESPONSE = b'ERROR'
 # logging
 SERVER_START_MSG = '--app started-- \n To close the app press CTRL-C'
 SERVER_END_MSG = '--app closed--'
-LOG_PATTERN = '{h}:{p} - Received: {m} - user: {u}'
+LOG_PATTERN = '{h}:{p} {d} - Received: {m} - user: {u}'
 
 
 # CLIENT SETTINGS
 
 # logging
 CLIENT_ERROR_RESPONSE_PATTERN = 'Connection error. Is server running? message: {}'
+
+
+DATETIME_FORMAT = "%a %d-%b-%Y %H:%M %p"
+
+LOCALE_LANG = 'es_ES'
+
+locale.setlocale(locale.LC_TIME, LOCALE_LANG)
