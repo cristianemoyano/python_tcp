@@ -1,27 +1,28 @@
 # Python TCP
 
-###Features
+### Features
 
 - Validate users
 - Add user
 - Run migrations
 - Reset and create schemas
 
-###Requirements
+### Requirements
 
 Python 3.x
 
 
-##Server
+## Server
 
-####Run server
+#### Run server
 
 `$ python3 server.py`
 
 
-####Menu options
+#### Menu options
 
-#####1. Validate users
+##### 1. Validate users
+
 Have you already created the database and the loaded users? then you are ready to validate users.
 
 Run the following command:
@@ -32,7 +33,8 @@ Then, select the option 1 and the server will be ready to listen to messages on 
 
 `$ -- Mode: Validate users - App listen on: 127.0.0.1:65432 ---`
 
-#####2. Add user
+##### 2. Add user
+
 You have already created the database but you need to load a new user? then you are in the correct option.
 
 Run the following command:
@@ -59,7 +61,8 @@ Then, select the option 2 and follow the steps:
 
 5. Done!
 
-#####3. Run migrations
+##### 3. Run migrations
+
 You have already created the database but you need to load several users in batch? OK, let's start!
 
 1. Edit the migrations.py file adding other users like:
@@ -87,7 +90,8 @@ def insert_users():
 
 3. Finally press "Y" (yes)
 
-#####4. Reset and create schemas
+##### 4. Reset and create schemas
+
 You have not created the database and the tables yet?  What are you waiting for?
 
 1. Run the following command:
@@ -99,9 +103,10 @@ You have not created the database and the tables yet?  What are you waiting for?
 3. Finally press "Y" (yes)
 
 
-##Client
+## Client
 
-####Run client test
+#### Run client test
+
 > Remember to have the server running in another tab.
 
 1. Run the following command:
