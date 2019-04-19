@@ -9,7 +9,7 @@ MENU_OPTIONS = {
     '2': {
         'title': "-- Mode: Add users --",
         'value': 2,
-        'label': 'Add users',
+        'label': 'Add user',
         'items': {
             'name': 'Please, enter the first name: ',
             'last_name': 'Now enter the last name: ',
@@ -39,12 +39,14 @@ MENU_OPTIONS = {
     },
 }
 
+MENU_TITLE = "Menu: "
+
 
 def generate_option_labels():
     j = ' \n '
     d = '.'
     s = ' '
-    options = "Options: " + j
+    options = MENU_TITLE + j
     for key, opt in MENU_OPTIONS.items():
         options += key + d + s + opt.get('label') + j
     return options
